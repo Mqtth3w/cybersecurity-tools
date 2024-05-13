@@ -2,7 +2,6 @@ from Crypto.Cipher import AES
 from hashlib import sha3_512
 from sys import exit as sysexit
 
-#HNOTE = "Hnote.txt"
 ENOTE = "Enote.txt"
 NNOTE = "Nnote.txt"
 
@@ -49,15 +48,6 @@ match input("mode: "):
             ciphertext = encrypt_AES256(plaintext)
             with open(ENOTE, "ab") as f3:
                 f3.write(ciphertext)
-        except:
-            print_er("append error")
-    case "overwrite":
-        try:
-            with open(NNOTE, "r") as f4:
-                plaintext = f4.read()
-            ciphertext = encrypt_AES256(plaintext)
-            with open(ENOTE, "wb") as f5:
-                f5.write(ciphertext)
         except:
             print_er("append error")
     case _ :
