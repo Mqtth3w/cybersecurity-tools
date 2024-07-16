@@ -26,15 +26,16 @@ passwords = [
     "123!P@ssw0rd", "H@rd2Gu3ss!", "P@$$w0rd!XYZ", "Myp@$$123!", "C@p!tal1234", #2
     "123P@$$word!", "7h3Secr3t!", "P@$$w0rd!7890", "MyP@$$w0rd987", "C@pital!z3Me", #2
     "P@$$word!1234", "Myp@$$word!2023", "C@p!tal!ze1", "123!P@ssword", "W3lc0m3!123", #2
-    "Str0ngP@ss!2023", "C0mpl3x123!Pa$$", "H!gh3rSecur!ty!", "MyP@$$w0rd!7890", #3
-    "W3lc0m3B@ck!Pa$$", "P@$$!456!Str0ng!", "Myp@$$!2024?", "C@p!tal!z3_1!Pa$$", #3
-    "123!P@ss!1!", "W3lc0m3!2023!", "B3tt3r!Pa$$w0rd!Secur3", "P@$$!ABC!123", "Myp@$$!@456#", #3
-    "C@p!talP@$$w0rd!", "123!P@$$!ABC!", "W3lc0m3!456!", "Str0ng3r!Pa$$w0rd!", #3
-    "My$3cur3!Pa$$w0rd123", "C0mp1exP@$$w0rd!", "P@$$!9876!", "MyP@$$!12345#", "C@p!tal!zeM3!", #3
-    "123P@$$!ABC!", "W3lc0m3!789#Secur3", "N3w!Pa$$w0rd!2023", "P@$$!78910", "Myp@$$98765", #3
-    "C@p!tal!zeM3!", "123!P@$$!ABC!", "W3lc0m3!1234!", "Super!0rPa$$w0rd!", "123!P@$$!123#", #3
-    "My$ecur3P@$$word!", "C0mpl3xP@$$!w0rd!", "P@$$!5678!", "Myp@$$!2025!", "C@p!tal12345!Pa$$", #3
-    "MydfP@$df!15545#", "d@pdsf!tal!zge3!", #3
+    "as@ss!2023", "C0mdapl3x12sd3!Pa$$", "H!gh3rdsSecur!ty!", "MyP@$$w0rd!7890", #3
+    "W3lcsad0m3B@ck!Pa$$", "P@sd$$s!456!Str0ng!", "Myp@$$sd!2024?", "C@p!tals!z3_1!Pa$$", #3
+    "123!P@sass!1!", "W3lc0m3as!2023!", "B3tt3asr!Pa$$was0rd!Secur3", "P@$a$!sABasC!123",
+    "Myp@$$!@4as56#", "MydewfP@$egdf!15545#", "d@pdsegf!tal!tehzge3!", #3
+    "C@p!taslP@$as$w0rd!", "123!P@as$$!ABC!", "W3lsac0m3!456!", "Str0ngsa3r!Pa$$w0rd!", #3
+    "My$3cur3!Pa$$w0rd123", "C0mp1exP@$$w0rd!", "P@$$!9876!", "MyP@$$!12345#", "C@p!tafl!zeM3!", #3
+    "123Prg$$!ABregCrg!", "W3lc0m3f!78r9#Sercur3", "N3w!Pa$d$w0rd!2023", "P@$weg$!78910",
+    "Myp@sd$$98765", "Myp@$$ytk!2025!", "C@p!tal123yuk45!Pa$$", "123uyk!P@$$!123#", #3
+    "C@prg!tal!zergM3!", "123!ytP@$$!ArgBC!", "W3lc0m3!yjt1234!", "Superuk!0rPa$$w0rd!", #3
+    "My$ecuewrew3P@eg$$gword!", "C0mpl3esgwexP@$eg$!w0rd!", "P@$$!5rg678!", #3
     "J$@38fA!n2@K6rY4gT#dQ5fGtZ9hR1jN8", "M#9p@F!a3$N5tG7zR*dQ2sFtW8hA1jP", #4
     "L@5h#T!m8$G2kY3pZ#bR6fCtX0qA9jE", "P$@7kA!z3#L6tY4gQ#dF5bGtZ9rH1jV", #4
     "R#2n@G!d7@K3jY4gT#fD5gBtZ1hR9jM", "B$@4dA!n8#K6rY3gT#dQ5fGtZ9hR1jF", #4
