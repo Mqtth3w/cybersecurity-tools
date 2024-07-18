@@ -1,3 +1,8 @@
+'''
+    @author Matteo Gianvenuti https://github.com/mqtth3w
+    @license MIT License
+'''
+
 from scapy.all import *
 
 def packet_callback(packet):
