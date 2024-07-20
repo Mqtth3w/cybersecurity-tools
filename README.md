@@ -13,4 +13,4 @@ pip install pyinstaller
 ```bash
 pyinstaller --onefile --name exec_name source_script.py
 ```
-![sec-tools](./pcUniform.jpg)
+![sec-tools](./ypcUniform.jpg)
