@@ -9,6 +9,10 @@ import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
+key_len = 32
+iv_len = 16
+mic_len = 64
+
 def pad(data: bytes, blockSize: int) -> bytes:
     padLen = blockSize - (len(data) % blockSize)
     return data + (bytes([padLen]) * padLen)
@@ -32,36 +36,41 @@ def calculate_sha3_512(input_string: str) -> str:
     return sha3_512_hash.hexdigest()
         
 def encrypt(aesKey, iv, hashKey, file, textbox):
-    text = textbox.get("1.0", tk.END)
-    if len(aesKey) != 32 or not iv or not hashKey or not file or not text or not os.path.isfile(file):
+    text = textbox.get(1.0, tk.END)
+    if len(aesKey) != key_len or len(iv) != iv_len or not hashKey or not file or not text or not os.path.isfile(file):
         messagebox.showerror("Error", "AES-256 key must be 32 characters long. IV (CBC) must be 16 characters long. hash Key and textbox cannot be empty. File must exists.")
     else:
         mic = calculate_sha3_512(text + hashKey)
-        textbox.delete(0, 'end')
-        textbox.insert(0, "Encrypting...")
+        textbox.delete(1.0, tk.END)
+        textbox.insert(1.0, "Encrypting...")
         chipertext = encrypt_AES256(aesKey.encode(), iv.encode(), mic + text)
         try:
             with open(file, 'wb', encoding='utf-8') as f:
                 f.write(chipertext)
-            textbox.delete(0, 'end')
-            textbox.insert(0, f"Content encrypted in {file}.")
+            textbox.delete(1.0, tk.END)
+            textbox.insert(1.0, f"Content encrypted in {file}.")
         except:
-            textbox.delete(0, 'end')
+            textbox.delete(1.0, tk.END)
             messagebox.showerror("Error", f"An error occured writing the chipertext in {file}")
 
 def decrypt(aesKey, iv, hashKey, file, textbox):
-    text = textbox.get("1.0", tk.END)
-    if len(aesKey) != 32 or not iv or not hashKey or not file or not text or not os.path.isfile(file):
-        messagebox.showerror("Error", "AES-256 key must be 32 characters long. IV (CBC) must be 16 characters long. hash Key and textbox cannot be empty. File must exists.")
+    if len(aesKey) != key_len or len(iv) != iv_len or not hashKey or not file or not os.path.isfile(file):
+        messagebox.showerror("Error", "AES-256 key must be 32 characters long. IV (CBC) must be 16 characters long. hash Key cannot be empty. File must exists.")
     else:
-        textbox.delete(0, 'end')
-        textbox.insert(0, "Decrypting...")
+        textbox.delete(1.0, tk.END)
+        textbox.insert(1.0, "Decrypting...")
         try:
             with open(file, 'rb', encoding='utf-8') as f:
                 chipertext = f.read()
-            ####
+            plaintext = decrypt_AES256(aesKey.encode(), iv.encode(), chipertext)
+            mic = plaintext[:mic_len]
+            text = plaintext[mic_len:]
+            valid = mic == calculate_sha3_512(text + hashKey)
+            text = f"Integrity check passed: {valid}\nFile content:\n" + text
+            textbox.delete(1.0, tk.END)
+            textbox.insert(tk.END, text)            
         except:
-            textbox.delete(0, 'end')
+            textbox.delete(1.0, tk.END)
             messagebox.showerror("Error", f"An error occured reading the chipertext in {file}")
 
 def select_file(entry):
