@@ -11,7 +11,7 @@ from tkinter import filedialog, messagebox
 
 key_len = 32
 iv_len = 16
-mic_len = 64
+mic_len = 128
 
 def pad(data: bytes, blockSize: int) -> bytes:
     padLen = blockSize - (len(data) % blockSize)
@@ -35,43 +35,44 @@ def calculate_sha3_512(input_string: str) -> str:
     sha3_512_hash.update(input_string.encode('utf-8'))
     return sha3_512_hash.hexdigest()
         
-def encrypt(aesKey, iv, hashKey, file, textbox):
+def encrypt(aesKey, iv, hashKey, file, textbox, checklab):
     text = textbox.get(1.0, tk.END)
     if len(aesKey) != key_len or len(iv) != iv_len or not hashKey or not file or not text or not os.path.isfile(file):
         messagebox.showerror("Error", "AES-256 key must be 32 characters long. IV (CBC) must be 16 characters long. hash Key and textbox cannot be empty. File must exists.")
     else:
+        checklab.config(text="")
         mic = calculate_sha3_512(text + hashKey)
         textbox.delete(1.0, tk.END)
         textbox.insert(1.0, "Encrypting...")
         chipertext = encrypt_AES256(aesKey.encode(), iv.encode(), mic + text)
         try:
-            with open(file, 'wb', encoding='utf-8') as f:
+            with open(file, 'wb') as f:
                 f.write(chipertext)
             textbox.delete(1.0, tk.END)
             textbox.insert(1.0, f"Content encrypted in {file}.")
-        except:
+        except Exception as e:
             textbox.delete(1.0, tk.END)
-            messagebox.showerror("Error", f"An error occured writing the chipertext in {file}")
+            messagebox.showerror("Error", f"An error occured writing the chipertext in {file}: {e}")
 
-def decrypt(aesKey, iv, hashKey, file, textbox):
+def decrypt(aesKey, iv, hashKey, file, textbox, checklab):
     if len(aesKey) != key_len or len(iv) != iv_len or not hashKey or not file or not os.path.isfile(file):
         messagebox.showerror("Error", "AES-256 key must be 32 characters long. IV (CBC) must be 16 characters long. hash Key cannot be empty. File must exists.")
     else:
         textbox.delete(1.0, tk.END)
         textbox.insert(1.0, "Decrypting...")
         try:
-            with open(file, 'rb', encoding='utf-8') as f:
+            with open(file, 'rb') as f:
                 chipertext = f.read()
             plaintext = decrypt_AES256(aesKey.encode(), iv.encode(), chipertext)
             mic = plaintext[:mic_len]
             text = plaintext[mic_len:]
             valid = mic == calculate_sha3_512(text + hashKey)
-            text = f"Integrity check passed: {valid}\nFile content:\n" + text
+            checklab.config(text=f"Integrity check passed: {valid}")
             textbox.delete(1.0, tk.END)
             textbox.insert(tk.END, text)            
-        except:
+        except Exception as e:
             textbox.delete(1.0, tk.END)
-            messagebox.showerror("Error", f"An error occured reading the chipertext in {file}")
+            messagebox.showerror("Error", f"An error occured reading the chipertext in {file}: {e}")
 
 def select_file(entry):
     selected_file = filedialog.askopenfilename()
@@ -106,15 +107,18 @@ def secNotes_gui():
                     "to use the same encryption keys. Please wait. \n").grid(row=5, columnspan=3)
 
     tk.Button(root, text="Encrypt", command=lambda: encrypt(aesKey_entry.get(),
-        iv_entry.get(), hashKey_entry.get(), file_entry.get(), textbox
+        iv_entry.get(), hashKey_entry.get(), file_entry.get(), textbox, checklab
         )).grid(row=6, column=0)
     
     tk.Button(root, text="Decrypt and check integrity", command=lambda: decrypt(aesKey_entry.get(),
-        iv_entry.get(), hashKey_entry.get(), file_entry.get(), textbox
+        iv_entry.get(), hashKey_entry.get(), file_entry.get(), textbox, checklab
         )).grid(row=6, column=1)
     
+    checklab = tk.Label(root, text="")
+    checklab.grid(row=7, column=0)
+    
     textbox = tk.Text(root, width=100, height=30)
-    textbox.grid(row=7, column=0, columnspan=3)
+    textbox.grid(row=8, column=0, columnspan=3)
 
     root.mainloop()
 
