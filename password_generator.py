@@ -1,3 +1,8 @@
+'''
+    @author Matteo Gianvenuti https://github.com/mqtth3w
+    @license GPL-3.0
+'''
+
 import itertools
 
 all_items = [ #user data as name, favorites stuff etc

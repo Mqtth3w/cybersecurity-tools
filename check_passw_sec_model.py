@@ -1,6 +1,6 @@
 '''
     @author Matteo Gianvenuti https://github.com/mqtth3w
-    @license MIT License
+    @license GPL-3.0
 '''
 
 from sklearn.ensemble import RandomForestClassifier
