@@ -23,15 +23,24 @@ def generate_passwords(combinations):
     for combo in combinations:
         yield ''.join(combo)
 
+#len in terms of words
 min_length = 2
 max_length = 5
 
 combinations_generator = gen_combinations(all_items, min_len=min_length, max_len=max_length)
 passwords_generator = generate_passwords(combinations_generator)
 
+#'''
+with open('passwords.txt', 'w', encoding='utf-8') as f:
+    for pwd in passwords_generator:
+        f.write(pwd + '\n')
+#'''
+
+'''
 count = 0
 for pwd in passwords_generator:
     count += 1
     print(pwd)
+print(count)
+'''
 
-print(count) #266,630
