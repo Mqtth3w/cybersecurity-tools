@@ -1,5 +1,7 @@
 # Cybersecurity scripts and tools
 
+Its only for education purposes.
+
 ## Scripts
 - [check_passw_sec_model.py](./check_passw_sec_model.py) Simple AI model to check if a password is secure.
 - [secNotes.py](./secNotes.py) Data confidentiality and integrity with GUI.
