@@ -16,8 +16,7 @@ def gen_combinations(items, min_len=1, max_len=None):
         max_len = len(items)
     for r in range(min_len, max_len + 1):
         for combo in itertools.combinations(items, r):
-            for perm in itertools.permutations(combo):
-                yield perm
+            yield from itertools.permutations(combo)
 
 def generate_passwords(combinations):
     for combo in combinations:
@@ -30,17 +29,17 @@ max_length = 5
 combinations_generator = gen_combinations(all_items, min_len=min_length, max_len=max_length)
 passwords_generator = generate_passwords(combinations_generator)
 
-#'''
+'''
 with open('passwords.txt', 'w', encoding='utf-8') as f:
     for pwd in passwords_generator:
         f.write(pwd + '\n')
-#'''
-
 '''
+
+#'''
 count = 0
 for pwd in passwords_generator:
     count += 1
     print(pwd)
 print(count)
-'''
+#'''
 
