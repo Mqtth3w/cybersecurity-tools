@@ -1,5 +1,5 @@
 '''
-    @author Matteo Gianvenuti https://github.com/mqtth3w
+    @author Mqtth3w https://github.com/mqtth3w
     @license GPL-3.0
 '''
 
