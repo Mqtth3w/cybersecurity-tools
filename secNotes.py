@@ -80,31 +80,44 @@ def select_file(entry):
         entry.delete(0, 'end')
         entry.insert(0, selected_file)
 
+def update_length_label(entry, label):
+    length = len(entry.get())
+    label.config(text=f"Length: {length}")
+
 def secNotes_gui():
     root = tk.Tk()
     root.title("secNotes by Mqtth3w")
     root.resizable(False, False)
     
     tk.Label(root, text="Symmetric key AES-256 (32 characters):").grid(row=0, column=0)
-    aesKey_entry = tk.Entry(root, width=50)
+    aesKey_entry = tk.Entry(root, width=50, show='*')
     aesKey_entry.grid(row=0, column=1)
+    aesKey_length_label = tk.Label(root, text="Length: 0")
+    aesKey_length_label.grid(row=0, column=2)
+    aesKey_entry.bind('<KeyRelease>', lambda event: update_length_label(aesKey_entry, aesKey_length_label))
     
-    tk.Label(root, text="IV CBC mode (16 characters):").grid(row=1, column=0)
-    iv_entry = tk.Entry(root, width=50)
+    tk.Label(root, text="IV (CBC mode, 16 characters):").grid(row=1, column=0)
+    iv_entry = tk.Entry(root, width=50, show='*')
     iv_entry.grid(row=1, column=1)
+    iv_length_label = tk.Label(root, text="Length: 0")
+    iv_length_label.grid(row=1, column=2)
+    iv_entry.bind('<KeyRelease>', lambda event: update_length_label(iv_entry, iv_length_label))
     
-    tk.Label(root, text="Checksum key (at least one character):").grid(row=2, column=0)
-    hashKey_entry = tk.Entry(root, width=50)
+    tk.Label(root, text="Key for the checksum (at least one character):").grid(row=2, column=0)
+    hashKey_entry = tk.Entry(root, width=50, show='*')
     hashKey_entry.grid(row=2, column=1)
+    hashKey_length_label = tk.Label(root, text="Length: 0")
+    hashKey_length_label.grid(row=2, column=2)
+    hashKey_entry.bind('<KeyRelease>', lambda event: update_length_label(hashKey_entry, hashKey_length_label))
     
     tk.Label(root, text="Path to the file (ex: the/file/name.txt):").grid(row=3, column=0)
     file_entry = tk.Entry(root, width=50)
     file_entry.grid(row=3, column=1)
     tk.Button(root, text="Browse", command=lambda: select_file(file_entry)).grid(row=3, column=2)
 
-    tk.Label(root, text="The content of the following textbox will be encrypted in the specified \n"
-                    "file with the given keys. To decrypt the specified file, you need \n"
-                    "to use the same encryption keys. Please wait. \n").grid(row=5, columnspan=3)
+    tk.Label(root, text="Encypt: The contents of the following textbox will be encrypted in the specified file with the given keys.\n"
+            "To decrypt the specified file, you need to use the same encryption keys.\n"
+            "Decrypt: The contents of the encrypted file will be shown in the following textbox. Please wait.\n").grid(row=5, columnspan=3)
 
     tk.Button(root, text="Encrypt", command=lambda: encrypt(aesKey_entry.get(),
         iv_entry.get(), hashKey_entry.get(), file_entry.get(), textbox, checklab
