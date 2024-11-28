@@ -37,8 +37,18 @@ def calculate_sha3_512(input_string: str) -> str:
         
 def encrypt(aesKey, iv, hashKey, file, textbox, checklab):
     text = textbox.get(1.0, tk.END)
-    if len(aesKey) != key_len or len(iv) != iv_len or not hashKey or not file or not text or not os.path.isfile(file):
-        messagebox.showerror("Error", "AES-256 key must be 32 characters long. IV (CBC) must be 16 characters long. hash Key and textbox cannot be empty. File must exists.")
+    if len(aesKey) != key_len:
+        messagebox.showerror("Error", "AES-256 key must be 32 characters long.")
+    elif len(iv) != iv_len:
+        messagebox.showerror("Error", "IV (CBC) must be 16 characters long.")
+    elif not hashKey:
+        messagebox.showerror("Error", "Checksum key textbox cannot be empty.")
+    elif not text.strip():
+        messagebox.showerror("Error", "Text textbox cannot be empty.")
+    elif not file:
+        messagebox.showerror("Error", "File textbox cannot be empty.")
+    elif not os.path.isfile(file):
+        messagebox.showerror("Error", "File must exists.")
     else:
         checklab.config(text="")
         mic = calculate_sha3_512(text + hashKey)
@@ -55,8 +65,16 @@ def encrypt(aesKey, iv, hashKey, file, textbox, checklab):
             messagebox.showerror("Error", f"An error occured writing the chipertext in {file}: {e}")
 
 def decrypt(aesKey, iv, hashKey, file, textbox, checklab):
-    if len(aesKey) != key_len or len(iv) != iv_len or not hashKey or not file or not os.path.isfile(file):
-        messagebox.showerror("Error", "AES-256 key must be 32 characters long. IV (CBC) must be 16 characters long. hash Key cannot be empty. File must exists.")
+    if len(aesKey) != key_len:
+        messagebox.showerror("Error", "AES-256 key must be 32 characters long.")
+    elif len(iv) != iv_len:
+        messagebox.showerror("Error", "IV (CBC) must be 16 characters long.")
+    elif not hashKey:
+        messagebox.showerror("Error", "Checksum key textbox cannot be empty.")
+    elif not file:
+        messagebox.showerror("Error", "File textbox cannot be empty.")
+    elif not os.path.isfile(file):
+        messagebox.showerror("Error", "File must exists.")
     else:
         textbox.delete(1.0, tk.END)
         textbox.insert(1.0, "Decrypting...")
