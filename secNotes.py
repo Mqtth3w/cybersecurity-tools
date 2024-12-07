@@ -35,7 +35,13 @@ def calculate_sha3_512(input_string: str) -> str:
     sha3_512_hash.update(input_string.encode('utf-8'))
     return sha3_512_hash.hexdigest()
         
-def encrypt(aesKey, iv, hashKey, file, textbox, checklab):
+def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
+    aesKey = bytearray(aesKey_entry.get(), 'utf-8')
+    aesKey_entry.delete(0, tk.END)
+    iv = bytearray(iv_entry.get(), 'utf-8')
+    iv_entry.delete(0, tk.END)
+    hashKey = bytearray(hashKey_entry.get(), 'utf-8')
+    hashKey_entry.delete(0, tk.END)
     text = textbox.get(1.0, tk.END)
     if len(aesKey) != key_len:
         messagebox.showerror("Error", "AES-256 key must be 32 characters long.")
@@ -51,10 +57,13 @@ def encrypt(aesKey, iv, hashKey, file, textbox, checklab):
         messagebox.showerror("Error", "File must exists.")
     else:
         checklab.config(text="")
-        mic = calculate_sha3_512(text + hashKey)
+        mic = calculate_sha3_512(text + hashKey.decode('utf-8'))
+        hashKey[:] = b'\x00' * len(hashKey)
         textbox.delete(1.0, tk.END)
         textbox.insert(1.0, "Encrypting...")
-        chipertext = encrypt_AES256(aesKey.encode(), iv.encode(), mic + text)
+        chipertext = encrypt_AES256(aesKey, iv, mic + text)
+        aesKey[:] = b'\x00' * key_len
+        iv[:] = b'\x00' * iv_len
         try:
             with open(file, 'wb') as f:
                 f.write(chipertext)
@@ -64,7 +73,13 @@ def encrypt(aesKey, iv, hashKey, file, textbox, checklab):
             textbox.delete(1.0, tk.END)
             messagebox.showerror("Error", f"An error occured writing the chipertext in {file}: {e}")
 
-def decrypt(aesKey, iv, hashKey, file, textbox, checklab):
+def decrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
+    aesKey = bytearray(aesKey_entry.get(), 'utf-8')
+    aesKey_entry.delete(0, tk.END)
+    iv = bytearray(iv_entry.get(), 'utf-8')
+    iv_entry.delete(0, tk.END)
+    hashKey = bytearray(hashKey_entry.get(), 'utf-8')
+    hashKey_entry.delete(0, tk.END)
     if len(aesKey) != key_len:
         messagebox.showerror("Error", "AES-256 key must be 32 characters long.")
     elif len(iv) != iv_len:
@@ -81,10 +96,13 @@ def decrypt(aesKey, iv, hashKey, file, textbox, checklab):
         try:
             with open(file, 'rb') as f:
                 chipertext = f.read()
-            plaintext = decrypt_AES256(aesKey.encode(), iv.encode(), chipertext)
+            plaintext = decrypt_AES256(aesKey, iv, chipertext)
+            aesKey[:] = b'\x00' * key_len
+            iv[:] = b'\x00' * iv_len
             mic = plaintext[:mic_len]
             text = plaintext[mic_len:]
-            valid = mic == calculate_sha3_512(text + hashKey)
+            valid = mic == calculate_sha3_512(text + hashKey.decode('utf-8'))
+            hashKey[:] = b'\x00' * len(hashKey)
             checklab.config(text=f"Integrity check passed: {valid}")
             textbox.delete(1.0, tk.END)
             textbox.insert(tk.END, text)            
@@ -137,12 +155,12 @@ def secNotes_gui():
             "To decrypt the specified file, you need to use the same encryption keys.\n"
             "Decrypt: The contents of the encrypted file will be shown in the following textbox. Please wait.\n").grid(row=5, columnspan=3)
 
-    tk.Button(root, text="Encrypt", command=lambda: encrypt(aesKey_entry.get(),
-        iv_entry.get(), hashKey_entry.get(), file_entry.get(), textbox, checklab
+    tk.Button(root, text="Encrypt", command=lambda: encrypt(aesKey_entry,
+        iv_entry, hashKey_entry, file_entry.get(), textbox, checklab
         )).grid(row=6, column=0)
     
-    tk.Button(root, text="Decrypt and check integrity", command=lambda: decrypt(aesKey_entry.get(),
-        iv_entry.get(), hashKey_entry.get(), file_entry.get(), textbox, checklab
+    tk.Button(root, text="Decrypt and check integrity", command=lambda: decrypt(aesKey_entry,
+        iv_entry, hashKey_entry, file_entry.get(), textbox, checklab
         )).grid(row=6, column=1)
     
     checklab = tk.Label(root, text="")
