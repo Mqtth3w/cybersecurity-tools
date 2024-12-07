@@ -41,17 +41,18 @@ def clear_data(data: bytearray):
     data.clear()
 
 def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
-    aesKey = bytearray(aesKey_entry.get(), 'utf-8')
-    aesKey_entry.delete(0, tk.END)
-    iv = bytearray(iv_entry.get(), 'utf-8')
-    iv_entry.delete(0, tk.END)
+    aesKey_str = aesKey_entry.get()
+    iv_str = iv_entry.get()
     hashKey = bytearray(hashKey_entry.get(), 'utf-8')
-    hashKey_entry.delete(0, tk.END)
     text = textbox.get(1.0, tk.END)
-    if len(aesKey) != key_len:
+    if len(aesKey_str) != key_len:
         messagebox.showerror("Error", "AES-256 key must be 32 characters long.")
-    elif len(iv) != iv_len:
+    elif not all(ord(c) < 128 for c in aesKey_str):
+        messagebox.showerror("Error", "AES-256 key must contain only ASCII characters.")
+    elif len(iv_str) != iv_len:
         messagebox.showerror("Error", "IV (CBC) must be 16 characters long.")
+    elif not all(ord(c) < 128 for c in iv_str):
+        messagebox.showerror("Error", "IV (CBC) must contain only ASCII characters.")
     elif not hashKey:
         messagebox.showerror("Error", "Checksum key textbox cannot be empty.")
     elif not text.strip():
@@ -61,6 +62,11 @@ def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
     elif not os.path.isfile(file):
         messagebox.showerror("Error", "File must exists.")
     else:
+        aesKey = bytearray(aesKey_str, 'utf-8')
+        aesKey_entry.delete(0, tk.END)
+        iv = bytearray(iv_str, 'utf-8')
+        iv_entry.delete(0, tk.END)
+        hashKey_entry.delete(0, tk.END)
         checklab.config(text="")
         mic = calculate_sha3_512(text + hashKey.decode('utf-8'))
         clear_data(hashKey)
@@ -79,16 +85,17 @@ def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
             messagebox.showerror("Error", f"An error occured writing the chipertext in {file}: {e}")
 
 def decrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
-    aesKey = bytearray(aesKey_entry.get(), 'utf-8')
-    aesKey_entry.delete(0, tk.END)
-    iv = bytearray(iv_entry.get(), 'utf-8')
-    iv_entry.delete(0, tk.END)
+    aesKey_str = aesKey_entry.get()
+    iv_str = iv_entry.get()
     hashKey = bytearray(hashKey_entry.get(), 'utf-8')
-    hashKey_entry.delete(0, tk.END)
-    if len(aesKey) != key_len:
+    if len(aesKey_str) != key_len:
         messagebox.showerror("Error", "AES-256 key must be 32 characters long.")
-    elif len(iv) != iv_len:
+    elif not all(ord(c) < 128 for c in aesKey_str):
+        messagebox.showerror("Error", "AES-256 key must contain only ASCII characters.")
+    elif len(iv_str) != iv_len:
         messagebox.showerror("Error", "IV (CBC) must be 16 characters long.")
+    elif not all(ord(c) < 128 for c in iv_str):
+        messagebox.showerror("Error", "IV (CBC) must contain only ASCII characters.")
     elif not hashKey:
         messagebox.showerror("Error", "Checksum key textbox cannot be empty.")
     elif not file:
@@ -96,6 +103,11 @@ def decrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
     elif not os.path.isfile(file):
         messagebox.showerror("Error", "File must exists.")
     else:
+        aesKey = bytearray(aesKey_str, 'utf-8')
+        aesKey_entry.delete(0, tk.END)
+        iv = bytearray(iv_str, 'utf-8')
+        iv_entry.delete(0, tk.END)
+        hashKey_entry.delete(0, tk.END)
         textbox.delete(1.0, tk.END)
         textbox.insert(1.0, "Decrypting...")
         try:
