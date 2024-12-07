@@ -5,6 +5,7 @@
 
 from Crypto.Cipher import AES
 from hashlib import sha3_512
+import ctypes
 import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -34,7 +35,11 @@ def calculate_sha3_512(input_string: str) -> str:
     sha3_512_hash = sha3_512()
     sha3_512_hash.update(input_string.encode('utf-8'))
     return sha3_512_hash.hexdigest()
-        
+
+def clear_data(data: bytearray):
+    ctypes.memset(ctypes.addressof(ctypes.c_char.from_buffer(data)), 0, len(data))
+    data.clear()
+
 def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
     aesKey = bytearray(aesKey_entry.get(), 'utf-8')
     aesKey_entry.delete(0, tk.END)
@@ -58,12 +63,12 @@ def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
     else:
         checklab.config(text="")
         mic = calculate_sha3_512(text + hashKey.decode('utf-8'))
-        hashKey[:] = b'\x00' * len(hashKey)
+        clear_data(hashKey)
         textbox.delete(1.0, tk.END)
         textbox.insert(1.0, "Encrypting...")
         chipertext = encrypt_AES256(aesKey, iv, mic + text)
-        aesKey[:] = b'\x00' * key_len
-        iv[:] = b'\x00' * iv_len
+        clear_data(aesKey)
+        clear_data(iv)
         try:
             with open(file, 'wb') as f:
                 f.write(chipertext)
@@ -97,12 +102,12 @@ def decrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
             with open(file, 'rb') as f:
                 chipertext = f.read()
             plaintext = decrypt_AES256(aesKey, iv, chipertext)
-            aesKey[:] = b'\x00' * key_len
-            iv[:] = b'\x00' * iv_len
+            clear_data(aesKey)
+            clear_data(iv)
             mic = plaintext[:mic_len]
             text = plaintext[mic_len:]
             valid = mic == calculate_sha3_512(text + hashKey.decode('utf-8'))
-            hashKey[:] = b'\x00' * len(hashKey)
+            clear_data(hashKey)
             checklab.config(text=f"Integrity check passed: {valid}")
             textbox.delete(1.0, tk.END)
             textbox.insert(tk.END, text)            
