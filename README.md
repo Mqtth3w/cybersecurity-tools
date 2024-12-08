@@ -12,7 +12,7 @@ Its only for education purposes.
 ## Methods
 - Windows login bypass in less than 3 min (to do).
 
-### Create an executable
+## Creating an executable
 ```bash
 pip install pyinstaller
 ```
