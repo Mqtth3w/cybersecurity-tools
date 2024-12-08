@@ -8,7 +8,9 @@ from hashlib import sha3_512
 import ctypes
 import os
 import tkinter as tk
+from tkinter import scrolledtext
 from tkinter import filedialog, messagebox
+import threading
 
 key_len = 32
 iv_len = 16
@@ -137,6 +139,22 @@ def decrypt(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, text
         clear_data(hashKey)
         textbox.insert(tk.END, "Done.\n\n")
 
+def encrypt_threaded(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox):
+    thread = threading.Thread(
+        target=encrypt,
+        args=(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox),
+        daemon=True
+    )
+    thread.start()
+
+def decrypt_threaded(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox):
+    thread = threading.Thread(
+        target=decrypt,
+        args=(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox),
+        daemon=True
+    )
+    thread.start()
+
 def select_directory(entry):
     selected_directory = filedialog.askdirectory()
     if selected_directory:
@@ -186,19 +204,20 @@ def secImgs_gui():
     tk.Label(root, text="file types (ex: 'png,jpg,jpeg'. Leave it empty to encrypt all type of files):").grid(row=5, column=0)
     types_entry = tk.Entry(root, width=50)
     types_entry.grid(row=5, column=1)
-    types_entry.insert(0, "png,jpg,jpeg")
+    #types_entry.insert(0, "png,jpg,jpeg")
     
     tk.Label(root, text="Encypt: All the files with the specified types in the plain-directory will be encrypted in the chiper-directory with the given keys.\n"
             "To decrypt, you need to use the same encryption keys.\n"
-            "Decrypt: All the files with the specified types in the chiper-directory will be decrypted in the plain-directory.\n").grid(row=6, columnspan=3)
+            "Decrypt: All the files with the specified types in the chiper-directory will be decrypted in the plain-directory.\nPlease wait.\n").grid(row=6, columnspan=3)
 
-    tk.Button(root, text="Encrypt", command=lambda: encrypt(pdir_entry.get(), cdir_entry.get(),
+    tk.Button(root, text="Encrypt", command=lambda: encrypt_threaded(pdir_entry.get(), cdir_entry.get(),
         aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox)).grid(row=7, column=0)
     
-    tk.Button(root, text="Decrypt and check integrity", command=lambda: decrypt(pdir_entry.get(),
+    tk.Button(root, text="Decrypt and check integrity", command=lambda: decrypt_threaded(pdir_entry.get(),
         cdir_entry.get(), aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox)).grid(row=7, column=1)
     
-    textbox = tk.Text(root, width=100, height=30)
+    textbox = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=100, height=25)
+    #textbox = tk.Text(root, width=100, height=30)
     textbox.grid(row=8, column=0, columnspan=3)
 
     root.mainloop()

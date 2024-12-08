@@ -8,6 +8,7 @@ from hashlib import sha3_512
 import ctypes
 import os
 import tkinter as tk
+from tkinter import scrolledtext
 from tkinter import filedialog, messagebox
 
 key_len = 32
@@ -170,7 +171,7 @@ def secNotes_gui():
 
     tk.Label(root, text="Encypt: The contents of the following textbox will be encrypted in the specified file with the given keys.\n"
             "To decrypt the specified file, you need to use the same encryption keys.\n"
-            "Decrypt: The contents of the encrypted file will be shown in the following textbox.\n").grid(row=5, columnspan=3)
+            "Decrypt: The contents of the encrypted file will be shown in the following textbox.\nPlease wait.\n").grid(row=5, columnspan=3)
 
     tk.Button(root, text="Encrypt", command=lambda: encrypt(aesKey_entry,
         iv_entry, hashKey_entry, file_entry.get(), textbox, checklab
@@ -183,7 +184,8 @@ def secNotes_gui():
     checklab = tk.Label(root, text="")
     checklab.grid(row=7, column=0)
     
-    textbox = tk.Text(root, width=100, height=30)
+    textbox = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=100, height=25)
+    #textbox = tk.Text(root, width=100, height=30)
     textbox.grid(row=8, column=0, columnspan=3)
 
     root.mainloop()
