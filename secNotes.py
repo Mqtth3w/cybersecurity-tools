@@ -142,14 +142,14 @@ def secNotes_gui():
     root.title("secNotes by Mqtth3w")
     root.resizable(False, False)
     
-    tk.Label(root, text="Symmetric key AES-256 (32 characters):").grid(row=0, column=0)
+    tk.Label(root, text="Symmetric key AES-256 (32 ASCII characters):").grid(row=0, column=0)
     aesKey_entry = tk.Entry(root, width=50, show='*')
     aesKey_entry.grid(row=0, column=1)
     aesKey_length_label = tk.Label(root, text="Length: 0")
     aesKey_length_label.grid(row=0, column=2)
     aesKey_entry.bind('<KeyRelease>', lambda event: update_length_label(aesKey_entry, aesKey_length_label))
     
-    tk.Label(root, text="IV (CBC mode, 16 characters):").grid(row=1, column=0)
+    tk.Label(root, text="IV (CBC mode, 16 ASCII characters):").grid(row=1, column=0)
     iv_entry = tk.Entry(root, width=50, show='*')
     iv_entry.grid(row=1, column=1)
     iv_length_label = tk.Label(root, text="Length: 0")
@@ -170,7 +170,7 @@ def secNotes_gui():
 
     tk.Label(root, text="Encypt: The contents of the following textbox will be encrypted in the specified file with the given keys.\n"
             "To decrypt the specified file, you need to use the same encryption keys.\n"
-            "Decrypt: The contents of the encrypted file will be shown in the following textbox. Please wait.\n").grid(row=5, columnspan=3)
+            "Decrypt: The contents of the encrypted file will be shown in the following textbox.\n").grid(row=5, columnspan=3)
 
     tk.Button(root, text="Encrypt", command=lambda: encrypt(aesKey_entry,
         iv_entry, hashKey_entry, file_entry.get(), textbox, checklab
