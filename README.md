@@ -9,6 +9,9 @@ Its only for education purposes.
 - [sniffer.py](./sniffer.py) Simple packet sniffer.
 - [password_generator.py](./password_generator.py) Generate all possible combinations/permutations from user preference/data. ex: favorite date, favorite films, name, etc.
 
+## Methods
+- Windows login bypass in less than 3 min (to do).
+
 ### Create an executable
 ```bash
 pip install pyinstaller
