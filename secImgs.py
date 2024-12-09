@@ -139,17 +139,9 @@ def decrypt(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, text
         clear_data(hashKey)
         textbox.insert(tk.END, "Done.\n\n")
 
-def encrypt_threaded(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox):
+def threaded_task(task_func, pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox):
     thread = threading.Thread(
-        target=encrypt,
-        args=(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox),
-        daemon=True
-    )
-    thread.start()
-
-def decrypt_threaded(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox):
-    thread = threading.Thread(
-        target=decrypt,
+        target=task_func,
         args=(pdir, cdir, aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox),
         daemon=True
     )
@@ -191,17 +183,17 @@ def secImgs_gui():
     hashKey_length_label.grid(row=2, column=2)
     hashKey_entry.bind('<KeyRelease>', lambda event: update_length_label(hashKey_entry, hashKey_length_label))
     
-    tk.Label(root, text="Plain-directory (ex: ./the/plain/dir/ \nin windows data should be in the same position of the script):").grid(row=3, column=0)
+    tk.Label(root, text="Plain-directory (ex: ./the/plain/dir/):").grid(row=3, column=0)
     pdir_entry = tk.Entry(root, width=50)
     pdir_entry.grid(row=3, column=1)
     tk.Button(root, text="Browse", command=lambda: select_directory(pdir_entry)).grid(row=3, column=2)
     
-    tk.Label(root, text="Chiper-directory (ex: ./the/chiper/dir/ \nin windows data should be in the same position of the script):").grid(row=4, column=0)
+    tk.Label(root, text="Chiper-directory (ex: ./the/chiper/dir/ \nin Windows, you can write only in the same position as the script or lower in the hierarchy):").grid(row=4, column=0)
     cdir_entry = tk.Entry(root, width=50)
     cdir_entry.grid(row=4, column=1)
     tk.Button(root, text="Browse", command=lambda: select_directory(cdir_entry)).grid(row=4, column=2)
     
-    tk.Label(root, text="file types (ex: 'png,jpg,jpeg'. Leave it empty to encrypt all type of files):").grid(row=5, column=0)
+    tk.Label(root, text="file types (ex: 'png,jpg,jpeg'. Leave it empty to encrypt/decrypt all types of files):").grid(row=5, column=0)
     types_entry = tk.Entry(root, width=50)
     types_entry.grid(row=5, column=1)
     #types_entry.insert(0, "png,jpg,jpeg")
@@ -210,10 +202,10 @@ def secImgs_gui():
             "To decrypt, you need to use the same encryption keys.\n"
             "Decrypt: All the files with the specified types in the chiper-directory will be decrypted in the plain-directory.\nPlease wait.\n").grid(row=6, columnspan=3)
 
-    tk.Button(root, text="Encrypt", command=lambda: encrypt_threaded(pdir_entry.get(), cdir_entry.get(),
+    tk.Button(root, text="Encrypt", command=lambda: threaded_task(encrypt, pdir_entry.get(), cdir_entry.get(),
         aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox)).grid(row=7, column=0)
     
-    tk.Button(root, text="Decrypt and check integrity", command=lambda: decrypt_threaded(pdir_entry.get(),
+    tk.Button(root, text="Decrypt and check integrity", command=lambda: threaded_task(decrypt, pdir_entry.get(),
         cdir_entry.get(), aesKey_entry, iv_entry, hashKey_entry, types_entry, textbox)).grid(row=7, column=1)
     
     textbox = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=100, height=25)
