@@ -183,12 +183,12 @@ def secImgs_gui():
     hashKey_length_label.grid(row=2, column=2)
     hashKey_entry.bind('<KeyRelease>', lambda event: update_length_label(hashKey_entry, hashKey_length_label))
     
-    tk.Label(root, text="Plain-directory (ex: ./the/plain/dir/):").grid(row=3, column=0)
+    tk.Label(root, text="Plain-directory (ex: ./the/plain/dir/ \nin Windows, the script can write only in the same position as the script or lower in the hierarchy):").grid(row=3, column=0)
     pdir_entry = tk.Entry(root, width=50)
     pdir_entry.grid(row=3, column=1)
     tk.Button(root, text="Browse", command=lambda: select_directory(pdir_entry)).grid(row=3, column=2)
     
-    tk.Label(root, text="Chiper-directory (ex: ./the/chiper/dir/ \nin Windows, you can write only in the same position as the script or lower in the hierarchy):").grid(row=4, column=0)
+    tk.Label(root, text="Chiper-directory (ex: ./the/chiper/dir/ \nin Windows, the script can write only in the same position as the script or lower in the hierarchy):").grid(row=4, column=0)
     cdir_entry = tk.Entry(root, width=50)
     cdir_entry.grid(row=4, column=1)
     tk.Button(root, text="Browse", command=lambda: select_directory(cdir_entry)).grid(row=4, column=2)

@@ -164,7 +164,7 @@ def secNotes_gui():
     hashKey_length_label.grid(row=2, column=2)
     hashKey_entry.bind('<KeyRelease>', lambda event: update_length_label(hashKey_entry, hashKey_length_label))
     
-    tk.Label(root, text="Path to the file ex: the/file/name.txt \n(in Windows, you can write only in the same position as the script or lower in the hierarchy):").grid(row=3, column=0)
+    tk.Label(root, text="Path to the file ex: the/file/name.txt \n(in Windows, the script can write only in the same position as the script or lower in the hierarchy):").grid(row=3, column=0)
     file_entry = tk.Entry(root, width=50)
     file_entry.grid(row=3, column=1)
     tk.Button(root, text="Browse", command=lambda: select_file(file_entry)).grid(row=3, column=2)
