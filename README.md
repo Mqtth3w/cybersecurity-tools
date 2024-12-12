@@ -10,8 +10,20 @@ Its only for education purposes.
 - [password_generator.py](./password_generator.py) Generate all possible combinations/permutations from user preference/data. ex: favorite date, favorite films, name, etc.
 
 ## Methods
-- Windows login bypass in less than 3 min (to do).
-
+<!--- Windows --->
+<details closed>
+<summary><b>Windows: login bypass in less than 3 min (to do).</b></summary>
+</details>
+<details closed>
+<summary><b>Windows: get wifi password from a terminal</b></summary>
+```cmd
+netsh wlan show profiles
+```
+```cmd
+netsh wlan show profile name="ProfileName" key=clear
+```
+</details>
+  
 ## Creating an executable
 ```bash
 pip install pyinstaller
