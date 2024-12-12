@@ -12,18 +12,28 @@ Its only for education purposes.
 ## Methods
 <!--- Windows --->
 <details closed>
-<summary><b>Windows: login bypass in less than 3 min (to do).</b></summary>
-</details>
+<summary><b>Windows: get wifi password from a terminal</b></summary>
+Execute the following commands.
+<br></br>
+  
+```cmd
+to do
+```
+
+<!--- Windows --->
 <details closed>
 <summary><b>Windows: get wifi password from a terminal</b></summary>
+Execute the following commands.
+<br></br>
+
 ```cmd
 netsh wlan show profiles
 ```
 ```cmd
-netsh wlan show profile name="ProfileName" key=clear
+netsh wlan show profile name=<ProfileName> key=clear
 ```
 </details>
-  
+
 ## Creating an executable
 ```bash
 pip install pyinstaller
