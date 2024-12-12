@@ -19,6 +19,7 @@ Execute the following commands.
 ```cmd
 to do
 ```
+</details>
 
 <!--- Windows --->
 <details closed>
