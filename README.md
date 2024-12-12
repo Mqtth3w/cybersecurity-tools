@@ -14,7 +14,7 @@ Its only for education purposes.
 <details closed>
 <summary><b>Windows: login bypass in less than 3min. </b></summary>
 Execute the following commands.
-<br></br>
+<br>
   
 ```cmd
 to do
@@ -24,12 +24,13 @@ to do
 <!--- Windows --->
 <details closed>
 <summary><b>Windows: get wifi password from a terminal</b></summary>
-Execute the following commands.
+Execute the following command:
 <br>
 
 ```cmd
 netsh wlan show profiles
 ```
+choose the profile of interest, then:
 ```cmd
 netsh wlan show profile name=<ProfileName> key=clear
 ```
