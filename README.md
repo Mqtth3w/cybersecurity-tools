@@ -12,7 +12,7 @@ Its only for education purposes.
 ## Methods
 <!--- Windows --->
 <details closed>
-<summary><b>Windows: get wifi password from a terminal</b></summary>
+<summary><b>Windows: login bypass in less than 3min. </b></summary>
 Execute the following commands.
 <br></br>
   
@@ -25,7 +25,7 @@ to do
 <details closed>
 <summary><b>Windows: get wifi password from a terminal</b></summary>
 Execute the following commands.
-<br></br>
+<br>
 
 ```cmd
 netsh wlan show profiles
@@ -34,6 +34,7 @@ netsh wlan show profiles
 netsh wlan show profile name=<ProfileName> key=clear
 ```
 </details>
+<br>
 
 ## Creating an executable
 ```bash
