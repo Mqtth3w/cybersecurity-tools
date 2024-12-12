@@ -42,18 +42,14 @@ def clear_data(data: bytearray):
     data.clear()
 
 def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
-    aesKey_str = aesKey_entry.get()
-    iv_str = iv_entry.get()
+    aesKey = bytearray(aesKey_entry.get(), 'utf-8')
+    iv = bytearray(iv_entry.get(), 'utf-8')
     hashKey = bytearray(hashKey_entry.get(), 'utf-8')
     text = textbox.get(1.0, tk.END)
-    if len(aesKey_str) != key_len:
-        messagebox.showerror("Error", "AES-256 key must be 32 characters long.")
-    elif not all(ord(c) < 128 for c in aesKey_str):
-        messagebox.showerror("Error", "AES-256 key must contain only ASCII characters.")
-    elif len(iv_str) != iv_len:
-        messagebox.showerror("Error", "IV (CBC) must be 16 characters long.")
-    elif not all(ord(c) < 128 for c in iv_str):
-        messagebox.showerror("Error", "IV (CBC) must contain only ASCII characters.")
+    if len(aesKey) != key_len:
+        messagebox.showerror("Error", "AES-256 key must be 32 bytes long.")
+    elif len(iv) != iv_len:
+        messagebox.showerror("Error", "IV (CBC) must be 16 bytes long.")
     elif not hashKey:
         messagebox.showerror("Error", "Checksum key textbox cannot be empty.")
     elif not text.strip():
@@ -63,9 +59,7 @@ def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
     elif not os.path.isfile(file):
         messagebox.showerror("Error", "File must exists.")
     else:
-        aesKey = bytearray(aesKey_str, 'utf-8')
         aesKey_entry.delete(0, tk.END)
-        iv = bytearray(iv_str, 'utf-8')
         iv_entry.delete(0, tk.END)
         hashKey_entry.delete(0, tk.END)
         checklab.config(text="")
@@ -86,17 +80,13 @@ def encrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
             messagebox.showerror("Error", f"An error occured writing the chipertext in {file}: {e}")
 
 def decrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
-    aesKey_str = aesKey_entry.get()
-    iv_str = iv_entry.get()
+    aesKey = bytearray(aesKey_entry.get(), 'utf-8')
+    iv = bytearray(iv_entry.get(), 'utf-8')
     hashKey = bytearray(hashKey_entry.get(), 'utf-8')
-    if len(aesKey_str) != key_len:
-        messagebox.showerror("Error", "AES-256 key must be 32 characters long.")
-    elif not all(ord(c) < 128 for c in aesKey_str):
-        messagebox.showerror("Error", "AES-256 key must contain only ASCII characters.")
-    elif len(iv_str) != iv_len:
-        messagebox.showerror("Error", "IV (CBC) must be 16 characters long.")
-    elif not all(ord(c) < 128 for c in iv_str):
-        messagebox.showerror("Error", "IV (CBC) must contain only ASCII characters.")
+    if len(aesKey) != key_len:
+        messagebox.showerror("Error", "AES-256 key must be 32 bytes long.")
+    elif len(iv) != iv_len:
+        messagebox.showerror("Error", "IV (CBC) must be 16 bytes long.")
     elif not hashKey:
         messagebox.showerror("Error", "Checksum key textbox cannot be empty.")
     elif not file:
@@ -104,9 +94,7 @@ def decrypt(aesKey_entry, iv_entry, hashKey_entry, file, textbox, checklab):
     elif not os.path.isfile(file):
         messagebox.showerror("Error", "File must exists.")
     else:
-        aesKey = bytearray(aesKey_str, 'utf-8')
         aesKey_entry.delete(0, tk.END)
-        iv = bytearray(iv_str, 'utf-8')
         iv_entry.delete(0, tk.END)
         hashKey_entry.delete(0, tk.END)
         textbox.delete(1.0, tk.END)
@@ -135,7 +123,9 @@ def select_file(entry):
         entry.insert(0, selected_file)
 
 def update_length_label(entry, label):
-    length = len(entry.get())
+    data = bytearray(entry.get(), 'utf-8')
+    length = len(data)
+    clear_data(data)
     label.config(text=f"Length: {length}")
 
 def secNotes_gui():
@@ -143,14 +133,14 @@ def secNotes_gui():
     root.title("secNotes by Mqtth3w")
     root.resizable(False, False)
     
-    tk.Label(root, text="Symmetric key AES-256 (32 ASCII characters):").grid(row=0, column=0)
+    tk.Label(root, text="Symmetric key AES-256 (32 bytes):").grid(row=0, column=0)
     aesKey_entry = tk.Entry(root, width=50, show='*')
     aesKey_entry.grid(row=0, column=1)
     aesKey_length_label = tk.Label(root, text="Length: 0")
     aesKey_length_label.grid(row=0, column=2)
     aesKey_entry.bind('<KeyRelease>', lambda event: update_length_label(aesKey_entry, aesKey_length_label))
     
-    tk.Label(root, text="IV (CBC mode, 16 ASCII characters):").grid(row=1, column=0)
+    tk.Label(root, text="IV (CBC mode, 16 bytes):").grid(row=1, column=0)
     iv_entry = tk.Entry(root, width=50, show='*')
     iv_entry.grid(row=1, column=1)
     iv_length_label = tk.Label(root, text="Length: 0")
