@@ -23,7 +23,7 @@ to do
 
 <!--- Windows --->
 <details closed>
-<summary><b>Windows: get wifi password from a terminal</b></summary>
+<summary><b>Windows: get wifi saved passwords from a terminal</b></summary>
 Execute the following command:
 <br>
 
