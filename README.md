@@ -35,8 +35,11 @@ choose the profile of interest, then:
 netsh wlan show profile name=<ProfileName> key=clear
 ```
 </details>
-<br>
 
+<!--- Windows --->
+Windows: [VBS scripting](./VBScripts)
+
+<br>
 ## Creating an executable
 ```bash
 pip install pyinstaller
