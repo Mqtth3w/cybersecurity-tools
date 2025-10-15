@@ -40,6 +40,7 @@ netsh wlan show profile name=<ProfileName> key=clear
 Windows: [VBS scripting](./VBScripts)
 
 <br>
+
 ## Creating an executable
 ```bash
 pip install pyinstaller
