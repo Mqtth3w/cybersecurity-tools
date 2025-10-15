@@ -4,5 +4,5 @@
 Dim sapi
 Set sapi=CreateObject("sapi.spvoice")
 do
-	sapi.sèeak "Oops, you have been hacked"
+	sapi.speak "Oops, you have been hacked"
 loop
