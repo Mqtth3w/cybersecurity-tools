@@ -1,6 +1,6 @@
 # VBScripts
 
-Check this four minutes [video](https://www.youtube.com/watch?v=QI-WrzOna3o) to learn why a VBScript is interesting and how to automatically run script through a USB pen once inserted on a Windows machine like a rubber duck.
+Check this four minutes [video](https://www.youtube.com/watch?v=QI-WrzOna3o) to learn why a VBScript is interesting and how to automatically run a script through a USB pen once inserted on a Windows machine like a rubber duck.
 
 ## My scripts
 - [copyBrowserProfiles.vbs](./copyBrowserProfiles.vbs) Copy the Firefox and Chrome browsers profiles to the USB pen. It takes around thirty seconds (depends on the number of profiles)
