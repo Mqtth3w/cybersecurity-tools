@@ -39,6 +39,10 @@ netsh wlan show profile name=<ProfileName> key=clear
 <!--- Windows --->
 Windows: [VBS scripting](./VBScripts)
 
+
+## Guides 
+[guides](./guides]
+
 <br>
 
 ## Creating an executable
