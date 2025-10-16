@@ -41,7 +41,7 @@ Windows: [VBS scripting](./VBScripts)
 
 
 ## Guides 
-[guides](./guides]
+[guides](./guides)
 
 <br>
 
