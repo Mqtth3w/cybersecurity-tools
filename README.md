@@ -1,6 +1,6 @@
 # Cybersecurity scripts and tools
 
-Its only for education purposes.
+Its only for education purposes. You are responsible for what you do, do not do illegal/harmful things.
 
 ## Scripts
 - [check_passw_sec_model.py](./check_passw_sec_model.py) Simple AI model to check if a password is secure.
